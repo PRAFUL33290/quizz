@@ -154,7 +154,7 @@ function renderQuestion() {
   }
 
   questionIndexEl.textContent = String(state.index + 1);
-  progressEl.style.width = `${((state.index) / GAME_LENGTH) * 100}%`;
+  progressEl.style.width = `${(state.index / GAME_LENGTH) * 100}%`;
 
   const evt = pickEvent();
   state.activeEvent = evt;
@@ -372,7 +372,7 @@ function playSound(freq, duration) {
     osc.start();
     osc.stop(ctx.currentTime + duration);
   } catch (error) {
-    // Navigateur sans audio context
+    // Browser without audio context support
   }
 }
 
