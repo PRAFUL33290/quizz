@@ -33,6 +33,7 @@ const questionDB = buildQuestionDatabase();
 const state = {
   score: 0,
   streak: 0,
+  maxStreak: 0,
   correct: 0,
   index: 0,
   round: [],
@@ -114,6 +115,7 @@ function closeModal() {
 function startGame() {
   state.score = 0;
   state.streak = 0;
+  state.maxStreak = 0;
   state.correct = 0;
   state.index = 0;
   state.activeEvent = null;
@@ -235,6 +237,7 @@ function answerQuestion(question, selected) {
   if (correct) {
     state.correct += 1;
     state.streak += 1;
+    state.maxStreak = Math.max(state.maxStreak, state.streak);
     points = 10;
 
     if (state.streak === 2) points *= 2;
@@ -328,7 +331,7 @@ function endGame() {
 
   const badges = [];
   if (state.correct >= 8) badges.push('🎯 Bon viseur');
-  if (state.streak >= 3) badges.push('🔥 Combo Master');
+  if (state.maxStreak >= 3) badges.push('🔥 Combo Master');
   if (state.score >= 500) badges.push('🏅 Expert en devenir');
   if (state.score === best) badges.push('🎉 Nouveau record');
   if (!badges.length) badges.push('🌟 Continue tes efforts');
@@ -363,7 +366,7 @@ function playSound(freq, duration) {
     gain.connect(ctx.destination);
     osc.start();
     osc.stop(ctx.currentTime + duration);
-  } catch (_) {
+  } catch (error) {
     // navigateur sans audio context
   }
 }

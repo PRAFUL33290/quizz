@@ -4,7 +4,7 @@ Jeu éducatif web pour enfants de 7 à 9 ans sur l’univers du numérique.
 
 ## Lancer le jeu
 
-Ouvrir `/tmp/workspace/PRAFUL33290/quizz/index.html` dans un navigateur moderne.
+Ouvrir `index.html` dans un navigateur moderne.
 
 ## Fonctionnalités
 
