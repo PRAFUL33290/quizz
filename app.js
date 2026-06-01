@@ -11,8 +11,19 @@ const themes = {
   'Logique numérique': ['Suites de nombres', 'Observation', 'Reconnaissance d’images', 'Mémorisation', 'Déduction'],
 };
 
+const THEME_EMOJIS = {
+  Informatique: '💻',
+  Internet: '🌐',
+  'Sécurité numérique': '🔒',
+  'Jeux vidéo': '🎮',
+  'Culture numérique': '📱',
+  'Logique numérique': '🧠',
+};
+
 const screens = {
   home: document.getElementById('home-screen'),
+  select: document.getElementById('select-screen'),
+  level: document.getElementById('level-screen'),
   game: document.getElementById('game-screen'),
   end: document.getElementById('end-screen'),
 };
@@ -31,6 +42,8 @@ const allConcepts = Object.values(themes).flat();
 const difficulties = ['Facile', 'Moyen', 'Difficile'];
 const questionDB = buildQuestionDatabase();
 let audioContext;
+let selectedTheme = null;
+let selectedDifficulty = null;
 
 const state = {
   score: 0,
@@ -123,7 +136,18 @@ function startGame() {
   state.activeEvent = null;
   clearTimer();
 
-  state.round = shuffle([...questionDB]).slice(0, GAME_LENGTH);
+  let pool = [...questionDB];
+  if (selectedTheme && selectedTheme !== 'Tous') {
+    const themeKeywords = new Set(themes[selectedTheme] || []);
+    const filtered = pool.filter((q) => themeKeywords.has(q.correct));
+    pool = filtered.length > 0 ? filtered : pool;
+  }
+  if (selectedDifficulty && selectedDifficulty !== 'Tous') {
+    const filtered = pool.filter((q) => q.difficulty === selectedDifficulty);
+    if (filtered.length >= GAME_LENGTH) pool = filtered;
+  }
+
+  state.round = shuffle(pool).slice(0, GAME_LENGTH);
   questionTotalEl.textContent = String(GAME_LENGTH);
   scoreEl.textContent = '0';
   comboEl.textContent = '0';
@@ -376,8 +400,33 @@ function playSound(freq, duration) {
   }
 }
 
+function buildThemeGrid() {
+  const grid = document.getElementById('theme-grid');
+  grid.replaceChildren();
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'theme-btn all-themes';
+  allBtn.textContent = '🌐 Tous les thèmes';
+  allBtn.onclick = () => { selectedTheme = 'Tous'; showScreen('level'); };
+  grid.appendChild(allBtn);
+
+  Object.keys(themes).forEach((name) => {
+    const btn = document.createElement('button');
+    btn.className = 'theme-btn';
+    const emoji = THEME_EMOJIS[name] || '📚';
+    btn.innerHTML = `<strong>${emoji} ${name}</strong><br><small>${themes[name].slice(0, 3).join(', ')}…</small>`;
+    btn.onclick = () => { selectedTheme = name; showScreen('level'); };
+    grid.appendChild(btn);
+  });
+}
+
 function bindMenu() {
-  document.getElementById('play-btn').onclick = startGame;
+  document.getElementById('play-btn').onclick = () => { buildThemeGrid(); showScreen('select'); };
+  document.getElementById('back-select').onclick = () => showScreen('home');
+  document.getElementById('back-level').onclick = () => showScreen('select');
+  document.querySelectorAll('.level-btn').forEach((btn) => {
+    btn.onclick = () => { selectedDifficulty = btn.dataset.level; startGame(); };
+  });
   document.getElementById('play-again').onclick = startGame;
   document.getElementById('home-btn').onclick = () => showScreen('home');
   document.getElementById('leaderboard-btn').onclick = () => {
