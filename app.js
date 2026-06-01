@@ -29,6 +29,7 @@ const timerEl = document.getElementById('timer');
 const allConcepts = Object.values(themes).flat();
 const difficulties = ['Facile', 'Moyen', 'Difficile'];
 const questionDB = buildQuestionDatabase();
+let audioContext;
 
 const state = {
   score: 0,
@@ -341,7 +342,7 @@ function endGame() {
 
 function spawnConfetti() {
   const host = document.getElementById('confetti');
-  host.innerHTML = '';
+  host.replaceChildren();
   const colors = ['#3b82f6', '#10b981', '#fbbf24', '#8b5cf6'];
   for (let i = 0; i < 40; i += 1) {
     const p = document.createElement('span');
@@ -351,12 +352,15 @@ function spawnConfetti() {
     p.style.animationDelay = `${Math.random() * 0.5}s`;
     host.appendChild(p);
   }
-  setTimeout(() => { host.innerHTML = ''; }, 1600);
+  setTimeout(() => { host.replaceChildren(); }, 1600);
 }
 
 function playSound(freq, duration) {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const ctx = audioContext;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.frequency.value = freq;
