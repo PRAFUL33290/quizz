@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Défi Numérique Junior</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section id="home-screen" class="screen active card">
+        <h1>🎮 Défi Numérique Junior</h1>
+        <p class="subtitle">Le quiz fun du numérique pour les 7-9 ans</p>
+        <div class="menu-grid">
+          <button id="play-btn" class="primary">Jouer</button>
+          <button id="leaderboard-btn">Classement</button>
+          <button id="rewards-btn">Récompenses</button>
+          <button id="settings-btn">Paramètres</button>
+        </div>
+        <div class="chip-row">
+          <span class="chip">Minecraft vibe</span>
+          <span class="chip">Roblox vibe</span>
+          <span class="chip">Nintendo vibe</span>
+        </div>
+      </section>
+
+      <section id="game-screen" class="screen card">
+        <header class="game-header">
+          <div class="stat">Score: <strong id="score">0</strong></div>
+          <div class="stat">Combo: <strong id="combo">0</strong></div>
+          <div class="stat">Question: <strong id="question-index">1</strong>/<span id="question-total">15</span></div>
+        </header>
+        <div class="progress-wrap"><div id="progress" class="progress"></div></div>
+        <div id="event-badge" class="event-badge"></div>
+        <div id="timer" class="timer"></div>
+        <h2 id="question-text"></h2>
+        <div id="answers" class="answers"></div>
+        <p id="feedback" class="feedback"></p>
+      </section>
+
+      <section id="end-screen" class="screen card">
+        <h2>🏁 Fin de partie</h2>
+        <p>Score total: <strong id="final-score">0</strong></p>
+        <p>Niveau obtenu: <strong id="final-rank">Explorateur</strong></p>
+        <p>Bonnes réponses: <strong id="final-correct">0</strong></p>
+        <p>Précision: <strong id="final-accuracy">0%</strong></p>
+        <p>Record personnel: <strong id="best-score">0</strong></p>
+        <div id="badges" class="badges"></div>
+        <div class="menu-grid single-row">
+          <button id="play-again" class="primary">Rejouer</button>
+          <button id="home-btn">Accueil</button>
+        </div>
+      </section>
+
+      <section id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-card">
+          <h3 id="modal-title"></h3>
+          <div id="modal-content"></div>
+          <button id="close-modal">Fermer</button>
+        </div>
+      </section>
+
+      <div id="confetti"></div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
