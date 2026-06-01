@@ -1,4 +1,5 @@
 const GAME_LENGTH = 15;
+const MAX_QUESTIONS = 330;
 const STORAGE_KEY = 'defi-numerique-junior-best';
 
 const themes = {
@@ -83,7 +84,7 @@ function buildQuestionDatabase() {
     { text: 'Déduction: si un lien promet un cadeau incroyable et urgent, c’est souvent…', options: ['Une arnaque', 'Toujours vrai', 'Un jeu officiel'], correct: 'Une arnaque', difficulty: 'Difficile' },
   ];
 
-  return [...questions, ...logicExtras].slice(0, 330);
+  return [...questions, ...logicExtras].slice(0, MAX_QUESTIONS);
 }
 
 function shuffle(arr) {
@@ -371,7 +372,7 @@ function playSound(freq, duration) {
     osc.start();
     osc.stop(ctx.currentTime + duration);
   } catch (error) {
-    // navigateur sans audio context
+    // Navigateur sans audio context
   }
 }
 
