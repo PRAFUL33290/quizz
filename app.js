@@ -190,7 +190,7 @@ function renderQuestion() {
   }
 
   questionText.textContent = `${current.text} (${current.difficulty})`;
-  answersEl.innerHTML = '';
+  answersEl.replaceChildren();
   current.options.forEach((choice) => {
     const btn = document.createElement('button');
     btn.className = 'answer-btn';
@@ -268,7 +268,7 @@ function answerQuestion(question, selected) {
 function launchPixelBonus() {
   eventBadgeEl.textContent = '🟨 Pixel Bonus: trouve le pixel différent';
   questionText.textContent = 'Clique sur le pixel différent dans la grille !';
-  answersEl.innerHTML = '';
+  answersEl.replaceChildren();
 
   const grid = document.createElement('div');
   grid.style.display = 'grid';
